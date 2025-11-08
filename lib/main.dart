@@ -7,17 +7,68 @@ import 'app/app_pages.dart';
 import 'app/app_routes.dart';
 import 'app/theme/app_theme.dart';
 import 'core/env.dart';
+import 'core/logger.dart';
+import 'data/local/local_cache.dart';
+import 'data/local/state_persistence.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize local storage
-  await GetStorage.init();
+  try {
+    // Initialize local storage
+    await GetStorage.init();
+    Logger.info('GetStorage initialized', tag: 'main');
 
-  // Initialize environment
-  Env.init();
+    // Initialize local cache
+    final cache = LocalCache();
+    await cache.initialize();
+    Logger.info('LocalCache initialized', tag: 'main');
 
-  runApp(const MyApp());
+    // Initialize state persistence
+    final persistence = StatePersistence();
+    await persistence.initialize();
+    Logger.info('StatePersistence initialized', tag: 'main');
+
+    // Initialize environment
+    Env.init();
+    Logger.info('Environment initialized', tag: 'main');
+
+    // Track app open
+    await persistence.incrementAppOpenCount();
+    await persistence.setFirstLaunchDate();
+
+    runApp(const MyApp());
+  } catch (e) {
+    Logger.error('Failed to initialize app', tag: 'main', exception: e);
+    runApp(const ErrorWidget());
+  }
+}
+
+class ErrorWidget extends StatelessWidget {
+  const ErrorWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error, size: 48, color: Colors.red),
+              const SizedBox(height: 16),
+              const Text('Failed to initialize app'),
+              const SizedBox(height: 8),
+              Text(
+                'Please check logs for details',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {

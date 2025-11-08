@@ -18,6 +18,13 @@ The Fire Safety Console is a real-time monitoring and control application design
 - **Health Monitoring** - GPU/CPU usage, storage, uptime, and system logs
 - **Dark Mode Support** - Full theme support with light/dark modes
 - **RTL Ready** - Prepared for Arabic and RTL language support
+- **Firebase Integration** - Auth, Firestore, and Storage support
+- **Push Notifications** - Firebase Cloud Messaging + Local Notifications
+- **Offline Support** - Automatic sync when connection restored
+- **Local Caching** - Smart cache with TTL management
+- **State Persistence** - User preferences and app settings saved locally
+- **Comprehensive Testing** - Unit and widget tests included
+- **CI/CD Pipeline** - GitHub Actions for automated testing and builds
 
 ## 🏗️ Project Architecture
 
@@ -266,6 +273,152 @@ Mock data is provided in `lib/core/mock_data.dart`:
 - 5 sensors with realistic readings
 - 3 training runs in different states
 - Complete service health and analytics data
+
+## ✨ Advanced Features
+
+### 🔔 Push Notifications
+- Real-time Firebase Cloud Messaging (FCM)
+- Local notification fallback
+- Severity-based notification styling
+- Automatic notification handling
+
+### 📡 Offline Sync
+- Automatic connectivity detection
+- Pending changes queue
+- Smart auto-sync when online
+- Manual sync trigger
+
+### 💾 Local Caching
+- Multi-level caching system
+- TTL-based cache expiration
+- Data type-specific caching
+- Automatic cleanup
+
+### 🔐 State Persistence
+- User preferences storage
+- App settings persistence
+- API token secure storage
+- App usage statistics tracking
+
+### 🔥 Firebase Integration
+- Email/Password authentication
+- Firestore real-time database
+- Firebase Storage for media
+- Secure token management
+
+### 🧪 Testing Suite
+- Unit tests for models and services
+- Widget tests for UI components
+- Test coverage reporting
+- CI/CD integration
+
+## 🚀 Setup Guide
+
+### Firebase Setup
+
+#### 1. Create Firebase Project
+- Go to [Firebase Console](https://console.firebase.google.com)
+- Create new project: `fire-safety-console`
+- Enable these services:
+  - Authentication (Email/Password)
+  - Cloud Firestore
+  - Firebase Storage
+  - Cloud Messaging
+
+#### 2. Android Setup
+```bash
+# Download google-services.json from Firebase Console
+# Place in: android/app/google-services.json
+
+# Update android/build.gradle
+buildscript {
+  dependencies {
+    classpath 'com.google.gms:google-services:4.3.15'
+  }
+}
+
+# Update android/app/build.gradle
+plugins {
+  id 'com.google.gms.google-services'
+}
+```
+
+#### 3. iOS Setup
+```bash
+# Download GoogleService-Info.plist from Firebase Console
+# Place in: ios/firebase/GoogleService-Info.plist
+
+# In Xcode:
+# 1. Add file to Runner project
+# 2. Enable capabilities: Push Notifications
+# 3. Add APNs certificate in Firebase Console
+```
+
+#### 4. Web Setup
+```bash
+# In Firebase Console, register web app
+# Get config values
+# Update lib/core/env.dart with Firebase config
+
+# Run app
+flutter run -d chrome
+```
+
+### Environment Configuration
+
+Update `lib/core/env.dart`:
+```dart
+class Env {
+  static void init() {
+    _isDevelopment = true;
+    _apiBaseUrl = 'https://api.example.com';
+    _wsBaseUrl = 'wss://api.example.com';
+    // Firebase config
+    _firebaseProjectId = 'fire-safety-console';
+  }
+}
+```
+
+### Running Tests
+
+```bash
+# Run all tests
+flutter test
+
+# Run with coverage
+flutter test --coverage
+
+# Generate coverage report
+lcov --list coverage/lcov.info
+
+# Run specific test file
+flutter test test/models/incident_test.dart
+
+# Run tests on specific platform
+flutter test -d chrome  # Web
+```
+
+### Building for Production
+
+```bash
+# Android APK
+flutter build apk --release
+
+# Android App Bundle
+flutter build appbundle --release
+
+# iOS
+flutter build ios --release
+
+# Web
+flutter build web --release
+
+# Windows
+flutter build windows --release
+
+# macOS
+flutter build macos --release
+```
 
 ## 🛠️ Development
 
