@@ -1,0 +1,57 @@
+name: fire_safety_console
+description: A complete Flutter Fire Safety Monitoring Console with GetX and MVMS architecture.
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State Management & Navigation
+  get: ^4.6.6
+  get_storage: ^2.1.1
+
+  # Networking
+  dio: ^5.7.0
+  web_socket_channel: ^2.4.0
+
+  # JSON Serialization
+  json_annotation: ^4.9.0
+  equatable: ^2.0.5
+
+  # Internationalization
+  intl: ^0.19.0
+
+  # Charts & UI
+  fl_chart: ^0.66.2
+
+  # Misc
+  cupertino_icons: ^1.0.2
+  timeago: ^3.5.0
+  shimmer: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+  build_runner: ^2.4.11
+  json_serializable: ^6.9.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 500
